@@ -8,7 +8,7 @@
     "start": "nodemon ./bin/www",
     "dev": "nodemon ./bin/www",
     "prod": "node ./bin/www",
-    "web":"node index.js"
+    "web":"node ./bin/www"
   },
   "keywords": [],
   "author": "",
