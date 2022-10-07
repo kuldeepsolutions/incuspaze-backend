@@ -33,57 +33,52 @@ exports.createLocation =async (req, res) => {
         uploadFile(req, res, async (err) => {
             // console.log(req.body);
             // console.log(req.files);
-            // let data1= req.files
+            let data1= req.files
             // console.log(data1);
             // get all files original name from data1
-        //     let data2 = data1.map((file) => file.originalname);
-        //     console.log(data2);
+            let data2 = data1.map((file) => file.originalname);
+            console.log(data2);
 
         //     // https://meta-unite-server.s3.ap-south-1.amazonaws.com/incuspaze/Co-working-space-in-lucknow.jpg
-        //    let convertToUrl = (data2) => {
-        //         let data3 = data2.map((file) => {
-        //             return `https://meta-unite-server.s3.ap-south-1.amazonaws.com/incuspaze/${file}`;
-        //         });
-        //         return data3;
-        //     };
+           let convertToUrl = (data2) => {
+                let data3 = data2.map((file) => {
+                    return `https://meta-unite-server.s3.ap-south-1.amazonaws.com/incuspaze/${file}`;
+                });
+                return data3;
+            };
         //     // console.log(convertToUrl(data2));
-        //     const data = convertToUrl(data2);
-        //     console.log(data);
+            const data = convertToUrl(data2);
+            console.log(data);
             // convert data array values to [{cover:data[i]}]
-            // let data4 = data.map((file) => {
-            //     return { cover: file };
-            // });
+            let data4 = data.map((file) => {
+                return { cover: file };
+            });
+            console.log(data4);
+
             // const file = req.files[0];
             // console.log(file);
-            let data = req.files;
-            let result =[]
-            for(let i=0;i<data.length;i++){
-                let file = data[i];
-                let fileUrl = await s3UploadSingle(file);
-               result.push(fileUrl);
-               console.log(fileUrl);
-            }
-            const result2  = await s3UploadSingle(req.files[0]);
-            console.log('-----\n\n'+result2);
+            // let data = req.files;
+            // let result =[]
+            // for(let i=0;i<data.length;i++){
+            //     let file = data[i];
+            //     let fileUrl = await s3UploadSingle(file);
+            //    result.push(fileUrl);
+            //    console.log(fileUrl);
+            // }
+            // const result2  = await s3UploadSingle(req.files[0]);
+            // console.log('-----\n\n'+result2);
             // console.log(result);
 
 
          
-            const results = await uploadFile(data);
-             
-            // console.log(results);
+            const results = await s3Uploadv3(data);
 
-
-
-            
-            // console.log(results);
-          
-
+            console.log(results);
             const location = await Incuspaze.create({
                 buildingName: req.body.buildingName,
                 description: req.body.description,
                 location: req.body.location,
-                // officeImag:data4,
+                officeImage:data4,
                 // video: results.Location,
             });
             if (!location || !results) {
