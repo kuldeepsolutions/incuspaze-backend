@@ -109,14 +109,15 @@ const IncuspazeSchema = new Schema({
         // trim:true,
         // // }],
         price:{
-            type:Number,
+            type:String,
             _id:false,
         },
         priceForTime:{
             type:String,
             trim:true,
-            enum:['hour','day','month','year','week','quarter','Hour','Day','Month','Year','Week','Quarter'],
             default:'day',
+            enum:['hour','day','month','year','week','quarter','Hour','Day','Month','Year','Week','Quarter'],
+            
             _id:false,
         },
         roomDescription:{
