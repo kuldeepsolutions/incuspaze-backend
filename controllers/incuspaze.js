@@ -1,4 +1,3 @@
-const Incuspaze = require('../models/incuspaze');
 require("dotenv").config();
 // const express = require("express");
 const multer = require("multer");
@@ -6,6 +5,7 @@ const { s3Uploadv2, s3Uploadv3,s3UploadSingle } = require("../s3Service");
 const uuid = require("uuid").v4;
 // const app = express();
 
+const Incuspaze = require('../models/incuspaze');
 const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
@@ -23,10 +23,6 @@ const upload = multer({
 });
 
 
-
-
-
-
 exports.createLocation =async (req, res) => {
     try {
         const uploadFile = upload.array("file", 20);
@@ -39,68 +35,87 @@ exports.createLocation =async (req, res) => {
             let data2 = data1.map((file) => file.originalname);
             console.log(data2);
 
-        //     // https://meta-unite-server.s3.ap-south-1.amazonaws.com/incuspaze/Co-working-space-in-lucknow.jpg
+     
            let convertToUrl = (data2) => {
                 let data3 = data2.map((file) => {
                     return `https://meta-unite-server.s3.ap-south-1.amazonaws.com/incuspaze/${file}`;
                 });
                 return data3;
             };
-        //     // console.log(convertToUrl(data2));
             const data = convertToUrl(data2);
-            console.log(data);
-            // convert data array values to [{cover:data[i]}]
             let data4 = data.map((file) => {
                 return { cover: file };
             });
-            console.log(data4);
-
-            // const file = req.files[0];
-            // console.log(file);
-            // let data = req.files;
-            // let result =[]
-            // for(let i=0;i<data.length;i++){
-            //     let file = data[i];
-            //     let fileUrl = await s3UploadSingle(file);
-            //    result.push(fileUrl);
-            //    console.log(fileUrl);
-            // }
-            // const result2  = await s3UploadSingle(req.files[0]);
-            // console.log('-----\n\n'+result2);
-            // console.log(result);
-
-
+            
+      
          
             const results = await s3Uploadv3(data);
+            let {officeName,officeAddress,officeContact,amenity,officeDescription,officeSpaces,officeRooms} = req.body;
+         
+            officeAddress=  JSON.parse(officeAddress);
+            amenity =   JSON.parse(amenity);
+            officeSpaces = JSON.parse(officeSpaces);
+            officeRooms = JSON.parse(officeRooms);
+           
+            console.log(officeAddress,"---",amenity,"---",officeSpaces,"---",officeRooms);
 
-            console.log(results);
+
             const location = await Incuspaze.create({
-                buildingName: req.body.buildingName,
-                description: req.body.description,
-                location: req.body.location,
+                officeName:officeName,
+                officeAddress:officeAddress,
+                officeContact:officeContact,
+                amenity:amenity,
+                officeDescription:officeDescription,
+                officeSpaces:officeSpaces,
+                officeRooms:officeRooms,
                 officeImage:data4,
-                // video: results.Location,
             });
-            if (!location || !results) {
+
+
+            if ( !results) {
                 return res.status(400).json({
                     status: "fail",
                     message: "Location not created",
                     err: err
                 });
             }
+
             
-
-
-
             res.status(201).json({
                 status: "success",
                 data: {
                     location,
-                    // results
+                    
                 }
             });
         });
         
+        
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        })
+    }
+};
+
+
+exports.getOfficeByCityName = async (req, res) => {
+    try {
+        const city = req.body.city;
+        const office = await Incuspaze.find({ "officeAddress.city": city },{_id:0,__v:0});
+        if (!office) {
+            return res.status(400).json({
+                status: "fail",
+                message: "No office found",
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            data: {
+                office,
+            }
+        });
         
     } catch (error) {
         res.status(500).json({

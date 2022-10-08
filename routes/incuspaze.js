@@ -10,5 +10,6 @@ const router = express.Router();
 
 
 router.post("/create", incuspaze.createLocation);
+router.get("/getOfficeName", incuspaze.getOfficeByCityName);
 
 module.exports = router;

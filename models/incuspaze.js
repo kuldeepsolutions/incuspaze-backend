@@ -72,25 +72,22 @@ const IncuspazeSchema = new Schema({
         trim:true,
         max:10,
     },
-    officeEmail:{
-        type:String,
-        trim:true,
-    },
+    
     amenity:[{
         amenityName:{
             type:String,
             trim:true,
+            _id:false,
         },
-        // amenityImage:{
-        //     type:String,
-        // trim:true,
-        // }
+        _id:false,
+        
     }],
     officeImage:[{
         cover:{
             type:String,
             trim:true,
-        }
+        },
+        _id:false,
     }],
     officeDescription:{
         type:String,
@@ -101,6 +98,7 @@ const IncuspazeSchema = new Schema({
         roomName:{
             type:String,
             trim:true,
+            _id:false,
         },
         // roomImage:[{
         //     type:String,
@@ -108,17 +106,21 @@ const IncuspazeSchema = new Schema({
         // // }],
         price:{
             type:Number,
+            _id:false,
         },
         priceForTime:{
             type:String,
             trim:true,
             enum:['hour','day','month','year','week','quarter','Hour','Day','Month','Year','Week','Quarter'],
-            default:'day'
+            default:'day',
+            _id:false,
         },
         roomDescription:{
             type:String,
             trim:true,
+            _id:false,
         },
+        _id:false,
 
     }]
 
@@ -126,4 +128,4 @@ const IncuspazeSchema = new Schema({
 
 },{timestamps:true});
 
-module.exports = mongoose.model('Incuspaze',IncuspazeSchema);
+module.exports = mongoose.model('incuspazeDb',IncuspazeSchema);
