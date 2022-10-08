@@ -89,6 +89,10 @@ const IncuspazeSchema = new Schema({
         },
         _id:false,
     }],
+    addressImageLink:{
+        type:String,
+        trim:true,
+    },
     officeDescription:{
         type:String,
         trim:true,
@@ -128,4 +132,4 @@ const IncuspazeSchema = new Schema({
 
 },{timestamps:true});
 
-module.exports = mongoose.model('incuspazeDb',IncuspazeSchema);
+module.exports = mongoose.model('location',IncuspazeSchema);
