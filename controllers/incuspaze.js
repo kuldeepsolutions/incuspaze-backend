@@ -42,10 +42,9 @@ exports.createLocation =async (req, res) => {
                 });
                 return data3;
             };
-
             const data = convertToUrl(data2);
             let data4 = data.map((file) => {
-                return file;
+                return { cover: file };
             });
             
       
@@ -54,9 +53,11 @@ exports.createLocation =async (req, res) => {
             let {officeName,officeAddress,officeContact,amenity,officeDescription,officeSpaces,officeRooms,addressImageLink} = req.body;
          
             officeAddress=  JSON.parse(officeAddress);
+            amenity =   JSON.parse(amenity);
+            // officeSpaces = JSON.parse(officeSpaces);
             officeRooms = JSON.parse(officeRooms);
            
-            // console.log(officeAddress,"---",amenity,"---",officeSpaces,"---",officeRooms);
+            console.log(officeAddress,"---",amenity,"---",officeSpaces,"---",officeRooms);
 
 
             const location = await Incuspaze.create({
