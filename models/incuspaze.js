@@ -5,11 +5,14 @@ const IncuspazeSchema = new Schema({
     officeName:{
         type:String,
         trim:true,
+        lowercase:true,
+        unique:true
     },
     officeAddress:{
         buildingName:{
             type:String,
             trim:true,
+            lowercase:true
         },
         floor:{
             type:String,
@@ -18,6 +21,7 @@ const IncuspazeSchema = new Schema({
         near:{
             type:String,
             trim:true,
+            lowercase:true
         },
         officeSubHeading:{
             type:String,
@@ -26,27 +30,28 @@ const IncuspazeSchema = new Schema({
         streetName:{
             type:String,
             trim:true,
+            lowercase:true
         },
         city:{
             type:String,
             trim:true,
+            lowercase:true
         },
         state:{
             type:String,
             trim:true,
+            lowercase:true
         },
         pincode:{
-            type:Number,
+            type:String,
+            trim:true
         },
         country:{
             type:String,
             trim:true,
+            lowercase:true,
+            default:"India"
         },
-        Link:{
-            type:String,
-            trim:true,
-        },
-       
         distance:{ 
             busStopDistance:{
                 type:String,
@@ -73,22 +78,8 @@ const IncuspazeSchema = new Schema({
         max:10,
     },
     
-    amenity:[{
-        amenityName:{
-            type:String,
-            trim:true,
-            _id:false,
-        },
-        _id:false,
-        
-    }],
-    officeImage:[{
-        cover:{
-            type:String,
-            trim:true,
-        },
-        _id:false,
-    }],
+    amenity:[String],
+    officeImage:[String],
     addressImageLink:{
         type:String,
         trim:true,
