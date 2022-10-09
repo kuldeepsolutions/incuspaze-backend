@@ -30,6 +30,7 @@ const IncuspazeSchema = new Schema({
         city:{
             type:String,
             trim:true,
+            lowercase:true
         },
         state:{
             type:String,
