@@ -103,7 +103,7 @@ exports.createLocation =async (req, res) => {
 
 exports.getOfficeByCityName = async (req, res) => {
     try {
-        const city = req.body.city;
+        const city = req.params.city;
         const office = await Incuspaze.find({ "officeAddress.city": city },{_id:0,__v:0});
         if (!office) {
             return res.status(400).json({
