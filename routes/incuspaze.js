@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/create", incuspaze.createLocation);
 
-router.get("/getOfficeName", incuspaze.getOfficeByCityName);
+router.get("/getOfficeName/:city", incuspaze.getOfficeByCityName);
 
 router.get("/getOfficeByStreetName", incuspaze.getOfficeByStreetName);
 
