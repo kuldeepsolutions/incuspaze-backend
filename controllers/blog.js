@@ -1,6 +1,7 @@
 const blog = require('../models/blog');
 const {s3Uploadv3} = require('../s3Service');
 const uuid = require('uuid').v4;
+const multer = require("multer");
 
 const storage = multer.memoryStorage();
 
@@ -27,6 +28,14 @@ exports.createBlog = async (req, res) => {
                 console.log(err);
             }
             console.log(req.body);
+            const result = await s3Uploadv3(req.files);
+            
+
+            
+            res.status(200).json({
+              message: "success",
+              result
+            });
         });
     } catch (error) {
         res.status(500).json({ 

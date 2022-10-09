@@ -25,6 +25,11 @@ const inquiry = require("./routes/inquiry");
 app.use("/inquiry", inquiry);
 
 
+// Blog
+const blog = require("./routes/blog");
+app.use("/blog", blog);
+
+
 
 app.use((error, req, res, next) => {
     if (error instanceof multer.MulterError) {

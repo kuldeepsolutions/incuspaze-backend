@@ -125,3 +125,138 @@ exports.getOfficeByCityName = async (req, res) => {
         })
     }
 };
+exports.getOfficeByStreetName = async (req, res) => {
+    try {
+        console.log(req.body);
+        const office = await Incuspaze.find({ "officeAddress.streetName": req.body.street },{_id:0,__v:0});
+        if (!office) {
+            return res.status(400).json({
+                status: "fail",
+                message: "No office found",
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            data: {
+                office,
+            }
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        })
+    }
+};
+
+exports.getOfficeBySpace = async (req, res) => {
+    try {
+        const office = await Incuspaze.find({ "officeSpaces": req.body.space },{_id:0,__v:0});
+        if (!office) {
+            return res.status(400).json({
+                status: "fail",
+                message: "No office found",
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            data: {
+                office,
+            }
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+};
+
+exports.queryFilter = async (req, res) => {
+    try {
+        let myQuery = req.query;
+        // console.log(myQuery);
+        const {officeName,buildingName,near,city,streetName,pincode,state,link,amenityName,officeSpace,roomaName,price,priceForTime} =myQuery;
+        // console.log(myQuery,link);
+        // // console.log(buildingName);
+        if(officeName||buildingName||near||city||streetName||pincode||state||link||amenityName||officeSpace||roomaName||price||priceForTime){
+            let body = {}
+            if(officeName){
+                body.officeName = officeName
+            }
+            if(buildingName){
+                body.buildingName = buildingName
+                console.log(body);
+
+            }
+            if(near){
+                body.officeAddress.near = near
+            }
+            if(city){
+                body.officeAddress.city = city
+            }
+            if(streetName){
+                body.officeAddress.streetName = streetName
+            }
+            if(pincode){
+                body.officeAddress.pincode = pincode
+            }
+            if(state){
+                body.officeAddress.state = state
+            }
+            if(link){
+                body.officeAddress.link = link
+            }
+            if(amenityName){
+                body.amenity.amenityName = amenityName
+            }
+            if(officeSpace){
+                body.officeSpaces = officeSpace
+            }
+            if(roomaName){
+                body.officeRooms.roomaName = roomaName
+            }
+            if(price){
+                body.officeRooms.price = price
+            }
+            if(priceForTime){
+                body.officeRooms.priceForTime = priceForTime
+            }
+            console.log(body);
+            const office = await Incuspaze.find(body,{_id:0,__v:0});
+            if (!office) {
+                return res.status(400).json({
+                    status: "fail",
+                    message: "No office found",
+                });
+            }
+           return res.status(200).json({
+                status: "success",
+                data: {
+                    office}
+            });
+        }
+        const office = await Incuspaze.find(body,{_id:0,__v:0});
+        if (!office) {
+            return res.status(400).json({
+                status: "fail",
+                message: "No office found",
+            });
+        }
+        res.status(200).json({
+            status: "success",
+            data: {
+                office,
+            }
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: error.message,
+        });
+    }
+
+};

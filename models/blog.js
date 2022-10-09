@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const blog = new Schema({
     title: {
-        type:stringify,
+        type: String,
         trim:true
     },
 
@@ -13,7 +13,10 @@ const blog = new Schema({
     subParagraph:[String],
 
     blogImages:{
-        image:{},
+        image:{
+            type:String,
+            trim:true
+        },
         _id:false,
     },
 
