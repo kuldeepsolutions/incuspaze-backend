@@ -48,8 +48,9 @@ exports.createLocation =async (req, res) => {
             });
             
       
+            
          
-            const results = await s3Uploadv3(data);
+            const results = await s3Uploadv3(req.files);
             let {officeName,officeAddress,officeContact,amenity,officeDescription,officeSpaces,officeRooms,addressImageLink} = req.body;
          
             officeAddress=  JSON.parse(officeAddress);
