@@ -13,8 +13,8 @@ const uuid = require("uuid").v4;
 const app = express();
 
 
-app.use(bodyParser.json({parameterLimit:10000,limit:"10mb"}));
-app.use(bodyParser.urlencoded({extended:true,parameterLimit:10000,limit:"10mb"})); 
+app.use(bodyParser.json({parameterLimit:100000,limit:"10mb"}));
+app.use(bodyParser.urlencoded({extended:true,parameterLimit:100000,limit:"10mb"})); 
 
 // calling the routes
 const routes = require("./routes/incuspaze");
@@ -28,6 +28,11 @@ app.use("/inquiry", inquiry);
 // Blog
 const blog = require("./routes/blog");
 app.use("/blog", blog);
+
+// Job
+const job = require("./routes/job");
+app.use("/job", job);
+
 
 
 
@@ -91,11 +96,15 @@ app.use(function (req, res, next) {
     // render the error page
     res.status(err.status || 500);
   });
-  
-
-
 
   module.exports = app;
+
+
+
+
+
+
+
 
 // var createError = require("http-errors");
 // var express = require("express");

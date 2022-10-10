@@ -27,10 +27,10 @@ exports.createBlog = async (req, res) => {
             if(err){
                 console.log(err);
             }
-            console.log(req.body);
+            // console.log(req.body);
             const result = await s3Uploadv3(req.files);
             
-
+            
             
             res.status(200).json({
               message: "success",
