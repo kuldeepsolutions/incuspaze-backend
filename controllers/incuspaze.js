@@ -48,7 +48,7 @@ exports.createLocation =async (req, res) => {
             });
             
       
-            
+
          
             const results = await s3Uploadv3(req.files);
             let {officeName,officeAddress,officeContact,amenity,officeDescription,officeSpaces,officeRooms,addressImageLink} = req.body;
@@ -58,7 +58,7 @@ exports.createLocation =async (req, res) => {
             // officeSpaces = JSON.parse(officeSpaces);
             officeRooms = JSON.parse(officeRooms);
            
-            console.log(officeAddress,"---",amenity,"---",officeSpaces,"---",officeRooms);
+            // console.log(officeAddress,"---",amenity,"---",officeSpaces,"---",officeRooms);
 
 
             const location = await Incuspaze.create({

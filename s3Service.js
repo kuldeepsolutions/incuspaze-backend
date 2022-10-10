@@ -24,7 +24,7 @@ exports.s3Uploadv3 = async (files) => {
   const params = files.map((file) => {
     return {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: `incuspaze/${uuid()}-${file.originalname}`,
+      Key: `incuspaze/${file.originalname}`,
       Body: file.buffer,
     };
   });
@@ -39,7 +39,7 @@ exports.s3UploadSingle = async (file) => {
   const s3client = new S3Client();
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
-    Key: `uploads/${uuid()}-${file.originalname}`,
+    Key: `uploads/${file.originalname}`,
     Body: file.buffer,
   }
   return await s3client.send(new PutObjectCommand(params));
@@ -53,7 +53,7 @@ exports.uploadFile = async (file) => {
       });
       var params = {
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `addImage/${uuid()}-${file.originalname}`, // HERE    "pk_newFolder/harry-potter.png" pk_newFolder/harry-potter.png
+        Key: `addImage/${file.originalname}`, // HERE    "pk_newFolder/harry-potter.png" pk_newFolder/harry-potter.png
         Body: file.buffer,
       };
      return s3.upload(params).promise();
