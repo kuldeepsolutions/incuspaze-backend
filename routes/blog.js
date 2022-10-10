@@ -4,6 +4,8 @@ const router = express.Router();
 
 
 router.post('/createBlog',blog.createBlog);
+router.get('/getBlog',blog.getBlogs);
+router.get('/getBlogById',blog.getBlogById);
 
 
 

@@ -27,16 +27,76 @@ exports.createBlog = async (req, res) => {
             if(err){
                 console.log(err);
             }
-            // console.log(req.body);
-            const result = await s3Uploadv3(req.files);
+            let data1= req.files
+            // console.log(data1);
+            // get all files original name from data1
+            let data2 = data1.map((file) => file.originalname);
+            console.log(data2);
+
+     
+           let convertToUrl = (data2) => {
+                let data3 = data2.map((file) => {
+                    return `https://meta-unite-server.s3.ap-south-1.amazonaws.com/incuspaze/${file}`;
+                });
+                return data3;
+            };
+            const data = convertToUrl(data2);
+            let data4 = data.map((file) => {
+                return {image:file};
+            });
             
-            
-            
+      
+         
+            const result = await s3Uploadv3(data);
+            let {title,heading,paragraph,subParagraph} = req.body;
+
+            const blogData = await blog.create({
+
+                title:title,
+                heading:heading,
+                paragraph:paragraph,
+                subParagraph:subParagraph,
+                blogImages:data4
+            });
+
+
+
+          
             res.status(200).json({
               message: "success",
-              result
+              data: blogData,
             });
         });
+    } catch (error) {
+        res.status(500).json({ 
+            message:"Internal Server Error",
+            error:error.message
+          });
+    }
+};
+
+exports.getBlogs = async (req, res) => {
+    try {
+        const blogs = await blog.find();
+        res.status(200).json({
+            message:"success",
+            data:blogs
+        })
+    } catch (error) {
+        res.status(500).json({ 
+            message:"Internal Server Error",
+            error:error.message
+          });
+    }
+};
+
+exports.getBlogById = async (req, res) => {
+    try {
+        const blogData = await blog.findById(req.body.id);
+        res.status(200).json({
+            message:"success",
+            data:blogData
+        })
     } catch (error) {
         res.status(500).json({ 
             message:"Internal Server Error",
