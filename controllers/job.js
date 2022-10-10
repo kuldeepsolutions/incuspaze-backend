@@ -29,3 +29,12 @@ exports.close_job= async (req,res)=>{
         return res.status(500).send(err.message)
     }
 }
+
+exports.getAllJobs = async (req,res)=>{
+    try{
+        const jobs = await jobModel.find({status:false});
+        return res.status(200).send({message:"success",data:jobs});
+    }catch(err){
+        return res.status(500).send(err.message)
+    }
+};
